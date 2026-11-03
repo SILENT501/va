@@ -1,0 +1,32 @@
+name: Build Mod
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip source
+        run: unzip -o VARZCLIENT-v7.2.0-Build-Ready-Source.zip
+      - name: Pin a stable Loom version (works around fabric-loom javadoc bug)
+        working-directory: VarzClient-Fabric-1.21.11
+        run: |
+          sed -i 's/^loom_version=.*/loom_version=1.11.2/' gradle.properties
+          sed -i 's/^fabric_api_version=.*/fabric_api_version=0.139.4+1.21.11/' gradle.properties
+          cat gradle.properties
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Build
+        working-directory: VarzClient-Fabric-1.21.11
+        run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: varzclient-jar
+          path: VarzClient-Fabric-1.21.11/build/libs/*.jar
+          
