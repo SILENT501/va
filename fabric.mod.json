@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "varzclient",
+  "version": "${version}",
+  "name": "VARZCLIENT",
+  "description": "VARZCLIENT for Fabric 1.21.11 with player proximity alerts and configurable client utilities.",
+  "authors": ["VARZCLIENT"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.varz.client.VarzClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
